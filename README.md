@@ -20,11 +20,11 @@ This project intends to create a trustable oracle for the ethereum blockchain.
 - See the Smart Contract on Ethereum Network: https://ropsten.etherscan.io/address/0x482c0d79dd8d2fc0ff72985acf28d6d2c522560e#code
 
 ### Versions of softwares:
-Truffle v5.1.60 (core: 5.1.60)
-Solidity v0.5.16 (solc-js)
-Node v14.15.3
-Npm v6.14.9
-Web3.js v1.2.9
+- Truffle v5.1.60 (core: 5.1.60)
+- Solidity v0.5.16 (solc-js)
+- Node v14.15.3
+- Npm v6.14.9
+- Web3.js v1.2.9
 
 
 ## Contact Me:
