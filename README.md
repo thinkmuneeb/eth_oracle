@@ -1,5 +1,5 @@
 # ethereum-oracle
-This project intends to create a trustable oracle for the ethereum blockchain.
+This project intends to create a trustable oracle for the ethereum blockchain on ropsten.
 
 ### Requirements:
 - [yarn](https://yarnpkg.com) or [npm](https://www.npmjs.com/)
@@ -8,11 +8,11 @@ This project intends to create a trustable oracle for the ethereum blockchain.
 
 
 ### How to Run the project:
-- go in folder off chain oracle
-- open it in terminal
-- create a .secret file and enter mnemonic in it
+- go in the folder "off chain oracle"
+- open this folder in terminal
+- create a .secret file in this folder and enter mnemonic in it
 - run command: npm install
-- run command: yarn run develop
+- run command: npm run develop
 
 ### Basic Information About Project:
 - On chain = Blockchain

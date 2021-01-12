@@ -15,7 +15,8 @@ try{
     process.env.WEB3_PROVIDER_ADDRESS
   );
 } catch(err) {
-  console.log('Error: please provide correct .env file and .secret file.\n\n', err);
+  //console.log('Error: please provide correct .env file and .secret file.\n\n', err);
+  throw 'please make a .secret in off-chain oracle folder and provide the mnemonic in this file.';
 }
 const web3 = new Web3(provider);
 const abi = JSON.parse(process.env.ABI);
@@ -79,6 +80,6 @@ export const newRequestEvent = (callback) => {
 };
 
 //when consensus is done request is updated
-export const updatedRequestEvent = (callback) => {
+export const updateRequestEvent = (callback) => {
   contract.UpdatedRequest((error, result) => callback(error, result));
 };
