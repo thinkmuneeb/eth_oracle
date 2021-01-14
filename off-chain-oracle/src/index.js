@@ -1,7 +1,7 @@
 import startOracle from "./oracle";
-import onChainEventsListener from "./consumer";
+import startOnchainEventsLog from "./consumer";
 import startClient from "./client";
 
 startOracle();
-onChainEventsListener();
+startOnchainEventsLog();
 startClient();
