@@ -1,4 +1,8 @@
-pragma solidity ^0.5.16;
+/**
+ *Submitted for verification at Etherscan.io on 2021-01-13
+ */
+
+pragma solidity ^0.5.17;
 
 contract Oracle {
     Request[] public requests;
@@ -6,42 +10,47 @@ contract Oracle {
     uint256 public minQuorum = 2;
     uint256 public totalOracleCount = 3;
 
+    mapping(string => uint256) public ratings;
+
     uint8 constant notTrusted = 0;
     uint8 constant trustedAndNotVoted = 1;
     uint8 constant trustedAndVoted = 2;
 
     struct Request {
         uint256 id;
-        string url;
+        string ethAddress;
         string attribute;
-        string agreedValue;
-        mapping(string => uint256) answers;
-        mapping(address => uint256) quorum;
+        uint256 agreedValue;
+        bool resolved;
+        mapping(uint256 => uint256) answers; //answer => number of votes
+        mapping(address => uint256) quorum; //address => trusted or not, voted or not
     }
 
-    event NewRequest(uint256 id, string url, string attribute);
+    event NewRequest(uint256 id, string ethAddress, string attribute);
 
     event UpdatedRequest(
         uint256 id,
-        string url,
+        string ethAddress,
         string attribute,
-        string agreedValue
+        uint256 agreedValue
     );
 
-    function createRequest(string memory _url, string memory _attribute)
+    function createRequest(string memory _ethAddress, string memory _attribute)
         public
     {
         uint256 length =
             requests.push(
                 Request({
                     id: currentId,
-                    url: _url,
+                    ethAddress: _ethAddress,
                     attribute: _attribute,
-                    agreedValue: ""
+                    agreedValue: 0, // if resolved is true then read agreedValue
+                    resolved: false // if resolved is false then agreedValue do not matter
                 })
             );
 
         Request storage r = requests[length - 1];
+
         r.quorum[
             address(0xcF01971DB0CAB2CBeE4A8C21BB7638aC1FA1c38c)
         ] = trustedAndNotVoted;
@@ -52,12 +61,17 @@ contract Oracle {
             address(0xA99Ccd923D1807c5C09aDC74f2ae08D1B5884619)
         ] = trustedAndNotVoted;
 
-        emit NewRequest(currentId, _url, _attribute);
+        emit NewRequest(currentId, _ethAddress, _attribute);
         currentId++;
     }
 
-    function updateRequest(uint256 _id, string memory _valueRetrieved) public {
+    function updateRequest(uint256 _id, uint256 _valueRetrieved) public {
         Request storage req = requests[_id];
+
+        require(
+            req.resolved == false,
+            "Error: Consensus is complete so you can not vote."
+        );
         require(
             req.quorum[address(msg.sender)] == trustedAndNotVoted,
             "Error: You can not vote."
@@ -65,20 +79,15 @@ contract Oracle {
 
         req.quorum[msg.sender] = trustedAndVoted;
         if (minQuorum <= ++req.answers[_valueRetrieved]) {
+            req.resolved = true;
             req.agreedValue = _valueRetrieved;
+            ratings[req.ethAddress] = _valueRetrieved;
             emit UpdatedRequest(
                 req.id,
-                req.url,
+                req.ethAddress,
                 req.attribute,
                 req.agreedValue
             );
         }
-    }
-
-    function getVotesOfAnswerOfRequest(
-        uint256 _requestIndex,
-        string memory _answer
-    ) public view returns (uint256) {
-        return requests[_requestIndex].answers[_answer];
     }
 }

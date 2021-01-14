@@ -5,17 +5,17 @@ import Web3 from "web3";
 import HDWalletProvider from "@truffle/hdwallet-provider";
 
 let provider = null;
-let mnemonic = null; 
+let mnemonic = null;
 
-const fs = require('fs');
-try{
+const fs = require("fs");
+try {
   mnemonic = fs.readFileSync(".secret").toString().trim();
-  provider = new HDWalletProvider(
-    mnemonic,
-    process.env.WEB3_PROVIDER_ADDRESS
+  provider = new HDWalletProvider(mnemonic, process.env.WEB3_PROVIDER_ADDRESS);
+} catch (err) {
+  console.log(
+    "Error: please provide correct .env file and .secret file.\n\n",
+    err
   );
-} catch(err) {
-  console.log('Error: please provide correct .env file and .secret file.\n\n', err);
 }
 const web3 = new Web3(provider);
 const abi = JSON.parse(process.env.ABI);
@@ -34,42 +34,58 @@ const account = () => {
   });
 };
 
-export const createRequest = ({
-  urlToQuery,
-  attributeToFetch
-}) => {
+export const createRequest = ({ urlToQuery, attributeToFetch }) => {
   return new Promise((resolve, reject) => {
-    account().then(account => {
-      contract.createRequest(urlToQuery, attributeToFetch, {
-        from: account
-      }, (err, res) => {
-        if (err === null) {
-          resolve(res);
-        } else {
-          reject(err);
-        }
-      });
-    }).catch(error => reject(error));
+    account()
+      .then((account) => {
+        contract.createRequest(
+          urlToQuery,
+          attributeToFetch,
+          {
+            from: account,
+          },
+          (err, res) => {
+            if (err === null) {
+              resolve(res);
+            } else {
+              reject(err);
+            }
+          }
+        );
+      })
+      .catch((error) => reject(error));
   });
 };
 
-export const updateRequest = ({id,valueRetrieved}) => {
+export const updateRequest = ({ id, valueRetrieved }) => {
   return new Promise((resolve, reject) => {
-    account().then(account => {
-      console.log('Sending this value to block chain: id:', id, ', value:', valueRetrieved);
-      contract.updateRequest(id, '' + valueRetrieved, {
-        from: account
-        //,gas: 46000000
-      }, (err, res) => {
-        console.log('account: ' + account);
-        console.log('transaction id: ' + res);
-        if (err === null) {
-          resolve(res);
-        } else {
-          reject(err);
-        }
-      });
-    }).catch(error => reject(error));
+    account()
+      .then((account) => {
+        console.log(
+          "Sending this value to block chain: id:",
+          id,
+          ", value:",
+          valueRetrieved
+        );
+        contract.updateRequest(
+          id,
+          "" + valueRetrieved,
+          {
+            from: account,
+            //,gas: 46000000
+          },
+          (err, res) => {
+            console.log("account: " + account);
+            console.log("transaction id: " + res);
+            if (err === null) {
+              resolve(res);
+            } else {
+              reject(err);
+            }
+          }
+        );
+      })
+      .catch((error) => reject(error));
   });
 };
 
@@ -82,3 +98,4 @@ export const newRequestEvent = (callback) => {
 export const updatedRequestEvent = (callback) => {
   contract.UpdatedRequest((error, result) => callback(error, result));
 };
+export const toWei = (data) => web3.toWei(data);
