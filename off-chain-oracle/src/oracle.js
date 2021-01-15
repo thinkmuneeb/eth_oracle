@@ -4,8 +4,15 @@ import request from "request-promise-native";
 
 import { updateRequest, newRequestEvent, toWei } from "./ethereum";
 
+let diary = {};
+
 const start = () => {
   newRequestEvent(async (error, result) => {
+    //return;
+    // console.log("blockNumber: ", blockNumber);
+    // if (diary[blockNumber] !== true) return;
+    // diary[blockNumber] = true;
+
     console.log("result.args.ethAddress: ", result.args.ethAddress);
     console.log("result: ", result);
 
