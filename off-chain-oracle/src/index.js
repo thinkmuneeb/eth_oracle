@@ -4,4 +4,4 @@ import startClient from "./client";
 
 startOracle();
 startOnchainEventsLog();
-startClient();
+//startClient();

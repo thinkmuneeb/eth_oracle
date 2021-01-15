@@ -4,7 +4,7 @@ import { createRequest } from "./ethereum";
 
 const start = () => {
   let ethAddressToQuery = "0xD06777d9b02F677214073cC3C5338904CBa7894a";
-  let attributeToFetch = "eth_balance";
+  let attributeToFetch = "bird_rating";
 
   createRequest({
     urlToQuery: ethAddressToQuery,

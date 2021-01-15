@@ -8,11 +8,6 @@ let diary = {};
 
 const start = () => {
   newRequestEvent(async (error, result) => {
-    //return;
-    // console.log("blockNumber: ", blockNumber);
-    // if (diary[blockNumber] !== true) return;
-    // diary[blockNumber] = true;
-
     console.log("result.args.ethAddress: ", result.args.ethAddress);
     console.log("result: ", result);
 
@@ -25,9 +20,7 @@ const start = () => {
     let valueRetrieved = "can not get value from api.";
 
     try {
-      //console.log('result from onchain: ', result)
       valueRetrieved = await request(options);
-      //console.log('value got from api: ', valueRetrieved)
       valueRetrieved = valueRetrieved[result.args.attribute];
 
       try {
@@ -48,5 +41,4 @@ const start = () => {
     }
   });
 };
-
 export default start;
