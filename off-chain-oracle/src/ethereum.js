@@ -72,7 +72,8 @@ export const updateRequest = ({ id, valueRetrieved }) => {
           "" + valueRetrieved,
           {
             from: account,
-            //,gas: 46000000
+            gas: 1000000,
+            gasPrice: web3.toWei(2, "gwei"),
           },
           (err, res) => {
             console.log("account: " + account);
