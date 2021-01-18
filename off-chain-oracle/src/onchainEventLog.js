@@ -1,11 +1,11 @@
 import {
-  updatedRequestEvent,
+  updateRequestEvent,
   newRequestEvent
 } from "./ethereum";
 
 const consume = () => {
-  updatedRequestEvent((error, result) => {
-    console.log("UPDATE REQUEST DATA EVENT ON SMART CONTRACT");
+  updateRequestEvent((error, result) => {
+    console.log("UPDATE REQUEST EVENT EMITTED ON SMART CONTRACT");
     console.log("BLOCK NUMBER: ");
     console.log("  " + result.blockNumber)
     console.log("UPDATE REQUEST DATA: ");
@@ -14,7 +14,7 @@ const consume = () => {
   });
 
   newRequestEvent((error, result) => {
-    console.log("NEW REQUEST DATA EVENT ON SMART CONTRACT");
+    console.log("NEW REQUEST EVENT EMITTED ON SMART CONTRACT");
     console.log("BLOCK NUMBER: ");
     console.log("  " + result.blockNumber)
     console.log("NEW REQUEST DATA: ");
